@@ -1,0 +1,53 @@
+.tasklist-container {
+    max-width: 800px;
+    padding: 20px;
+    margin: 0 auto;
+    background-color: #f4f4f4;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    
+}
+
+.tasklist-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.tasklist-actions {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.search-input {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 100%;
+    max-width: 300px;
+}
+
+.task-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.task-item {
+    background-color: #fff;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    display: flex;
+    
+}
+
+
+.task-content p {
+    margin: 5px 0;
+    font-size: 20px;
+}
+
+
+
+

@@ -1,0 +1,33 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #616557;
+    color: white;
+  }
+
+  .navbar-logo img {
+    height: 70px;
+    width: 70px;
+    border-radius: 50%;
+  }
+  .navbar-links {
+    display: flex;
+    gap: 10px;
+  }
+
+  .btn {
+    background-color: orange;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+  
