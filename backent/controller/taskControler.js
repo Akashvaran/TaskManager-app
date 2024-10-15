@@ -1,6 +1,7 @@
 import taskModel from "../model/taskModel.js";
 
 
+
 export const getAllTasks = async (req, res, next) => {
     try {
         const allTasks = await taskModel.find();
@@ -25,9 +26,8 @@ export const addTask = async (req, res, next) => {
 
 export const getTaskById = async (req, res, next) => {
     try {
-        console.log(req.params._id);
         
-        const task = await taskModel.findById(req.params._id);
+        const task = await taskModel.findById(req.params.id);
         if (!task) {
             return res.status(404).json({ message: 'Task not found' });
         }
@@ -38,6 +38,7 @@ export const getTaskById = async (req, res, next) => {
 };
 
 export const updateTaskStatus = async (req, res, next) => {
+    
     const { status } = req.body;
     try {
         const updatedTask = await taskModel.findByIdAndUpdate(

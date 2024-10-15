@@ -1,6 +1,8 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import './Signup.css';
 import Axios from '../../axios/Axios';
+import { useNavigate } from 'react-router-dom';
+import { RoleContext } from '../../productedRoute/RoleContaxt';
 
 export const Signup = () => {
     const [formData, setFormData] = useState({
@@ -9,10 +11,11 @@ export const Signup = () => {
         mobile: '',
         password: ''
     });
-
     const [errors, setErrors] = useState({});
     const [successMessage, setSuccessMessage] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
+    const { login } = useContext(RoleContext);
+    const navigate = useNavigate();
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -60,17 +63,26 @@ export const Signup = () => {
                 const response = await Axios.post('User/signup', formData);
                 console.log('Signup submitted successfully:', response.data);
 
-                setSuccessMessage('Signup successful!');
-                setFormData({
-                    name: '',
-                    email: '',
-                    mobile: '',
-                    password: ''
-                });
-                setErrors({});
-                errorMessage('')
-                
-                
+                const user = response.data.user;
+                if (user) {
+                    setSuccessMessage('Signup successful!');
+                    login(user);
+                    
+                    setTimeout(() => {
+                        navigate('/getAllTask');
+                    }, 1000);
+
+                    setFormData({
+                        name: '',
+                        email: '',
+                        mobile: '',
+                        password: ''
+                    });
+                    setErrors({});
+                    setErrorMessage('');
+                } else {
+                    setErrorMessage('Role not avaliable signup failed')
+                }
             } catch (error) {
                 console.error('Signup error:', error.response ? error.response.data : error.message);
                 setErrorMessage(error.response?.data?.message || 'Signup failed. Please try again.');
@@ -140,6 +152,7 @@ export const Signup = () => {
                     />
                     {errors.password && <p className="error-message">{errors.password}</p>}
                 </div>
+
                 <div className='sign-button-container'>
                     <button type="submit" className="sign-submit-button">Submit</button>
                 </div>

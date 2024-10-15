@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import './Login.css';
 import Axios from '../../axios/Axios';
-import {Link} from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom';
+import { RoleContext } from '../../productedRoute/RoleContaxt';
 
 export const Login = () => {
     const [formData, setFormData] = useState({
@@ -12,7 +13,8 @@ export const Login = () => {
     const [errors, setErrors] = useState({});
     const [successMessage, setSuccessMessage] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
-
+    const { login } = useContext(RoleContext);
+    
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData((prevData) => ({
@@ -39,6 +41,8 @@ export const Login = () => {
         return validationErrors;
     };
 
+    const navigate = useNavigate();
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         const validationErrors = validateForm();
@@ -48,14 +52,29 @@ export const Login = () => {
             try {
                 const response = await Axios.post('User/login', formData);
                 console.log('Login submitted successfully:', response.data);
+                console.log('API Response Data:', response.data);
 
-                setSuccessMessage('Login successful!');
-                setFormData({
-                    email: '',
-                    password: ''
-                });
-                setErrors({});
-                errorMessage('')
+                const user = response.data.user; 
+                
+                if (user) {
+                    console.log('User role:', user.role);
+                    login(user);
+                    setSuccessMessage('Login successful!');
+                    
+                    setTimeout(() => {
+                        navigate('/getAllTask');
+                    }, 1000);
+                    
+                    setFormData({
+                        email: '',
+                        password: ''
+                    });
+                    setErrors({});
+                    setErrorMessage('');
+                } else {
+                    console.error('Role not found in the response');
+                    setErrorMessage('Role not avaliable Login failed');
+                }
             } catch (error) {
                 console.error('Login error:', error.response ? error.response.data : error.message);
                 setErrorMessage(error.response?.data?.message || 'Login failed. Please try again.');
@@ -100,8 +119,10 @@ export const Login = () => {
                 <div className='login-button-container'>
                     <button type="submit" className="login-submit-button">Submit</button>
                 </div>
-                <p className='register-nav'>Don't have account?<Link to={'/signup'}>Regiester</Link></p>
+                <p className='register-nav'>Don't have an account? <Link to={'/signup'}>Register</Link></p>
             </form>
         </div>
     );
 };
+
+

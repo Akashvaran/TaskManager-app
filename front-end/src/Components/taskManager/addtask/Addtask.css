@@ -4,14 +4,27 @@
     padding: 20px;
     background-color: #fff;
     border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 3);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
     text-align: center;
+}
+
+.header-container {
+    display: flex;
+    justify-content: space-between; 
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.close-button {
+    cursor: pointer;
+    font-size: 24px;
+    color: #333;
 }
 
 h1 {
     color: #333;
     font-size: 24px;
-    margin-bottom: 20px;
+    margin: 0;
 }
 
 .add-task-form {
@@ -38,3 +51,6 @@ h1 {
     cursor: pointer;
 }
 
+.add-task-form button:hover {
+    background-color: #218838;
+}
