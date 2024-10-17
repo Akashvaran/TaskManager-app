@@ -2,9 +2,11 @@ import React, { useContext, useState } from 'react';
 import './Addtask.css';
 import { TaskContext } from '../../providercomponent/TaskProvider';
 import { IoMdClose } from "react-icons/io";
+import { RoleContext } from '../../productedRoute/RoleContaxt';
 
 const Addtask = () => {
     const { addTask, setaddshowModel } = useContext(TaskContext);
+    // const {userId}=useContext(RoleContext)
     const [taskname, setTaskname] = useState('');
     const [description, setDescription] = useState('');
     const [deadline, setDeadline] = useState('');

@@ -14,7 +14,7 @@ export const signup = async (req, res, next) => {
             return res.status(400).json({
                 message: "User already exists",
             });
-        }
+        }  
         const hashPassword = await bcrypt.hash(password, 10);
         const newUser = new userModel({name,email,mobile,password: hashPassword,role:'user'});
         await newUser.save();
@@ -108,5 +108,19 @@ export const deleteUser = async (req, res, next) => {
         res.status(200).json({ message: "User deleted successfully" });
     } catch (err) {
         next(err);
+    }
+};
+
+
+export const Verify = async (req, res) => {
+    try {
+        const token = req.cookies.jwt;
+        if (!token) {
+            return res.status(401).json({ status: false, msg: "Not authorized" });
+        }
+        const decodedData = jwt.verify(token, process.env.JWT_SECRET);
+        res.status(200).json({ status: true, user: decodedData });
+    } catch (err) {
+        res.status(401).json({ status: false, msg: "Invalid token" });
     }
 };

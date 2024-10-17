@@ -1,7 +1,5 @@
 import taskModel from "../model/taskModel.js";
 
-
-
 export const getAllTasks = async (req, res, next) => {
     try {
         const allTasks = await taskModel.find();
@@ -11,18 +9,16 @@ export const getAllTasks = async (req, res, next) => {
     }
 };
 
-
 export const addTask = async (req, res, next) => {
     const { taskname, description, status, deadline } = req.body;
     try {
-        const createTask = new taskModel({ taskname, description, status, deadline });
+        const createTask = new taskModel({ taskname,description,status,deadline,createdUser: req.user._id });
         const createdTask = await createTask.save();
-        res.status(201).json(createdTask); 
+        res.status(201).json(createdTask);
     } catch (err) {
         next(err);
     }
 };
-
 
 export const getTaskById = async (req, res, next) => {
     try {

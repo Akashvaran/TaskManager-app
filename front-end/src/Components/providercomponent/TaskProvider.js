@@ -1,16 +1,17 @@
-import React, { createContext, useState, useEffect } from 'react';
+import React, { createContext, useState, useEffect, useContext } from 'react';
 import Axios from '../axios/Axios';
+import { RoleContext } from '../productedRoute/RoleContaxt';
 
 export const TaskContext = createContext();
 
 export const TaskProvider = ({ children }) => {
+    const {userId}=useContext(RoleContext)
     const [tasks, setTasks] = useState([]);
     const [addshowModel, setaddshowModel] = useState(false);
-
+console.log(userId)
     const fetchTasks = async () => {
         try {
             const response = await Axios.get('/Task');
-            console.log(response.data);
             setTasks(response.data);
         } catch (error) {
             console.error('Error fetching tasks:', error);
@@ -18,8 +19,9 @@ export const TaskProvider = ({ children }) => {
     };
 
     const addTask = async (taskname, description, deadline) => {
+        console.log(userId)
         try {
-            const response = await Axios.post('/Task', { taskname, description, deadline });
+            const response = await Axios.post('/Task', { taskname, description, deadline});
             setTasks((prevTasks) => [...prevTasks, response.data]);
         } catch (error) {
             console.error('Error adding task:', error);

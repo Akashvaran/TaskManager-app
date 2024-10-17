@@ -14,16 +14,21 @@ const taskSchema = mongoose.Schema({
     status: {
         type: String,
         enum: ['pending', 'completed'],
-        default: 'pending' 
+        default: 'pending'
     },
     deadline: {
         type: Date,
         required: [true, 'Deadline is required']
+    },
+     createdUser: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'usermodel', 
+        required: true
     }
 }, {
     timestamps: true
 });
 
-const taskModel=mongoose.model('taskModel',taskSchema);
+const taskModel = mongoose.model('taskModel', taskSchema);
 
 export default taskModel;
