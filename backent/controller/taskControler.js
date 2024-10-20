@@ -4,7 +4,6 @@ export const getTasksByUser = async (req, res, next) => {
     try {
         const userId = req.user.id;
         const userTasks = await taskModel.find({ createdUser: userId });
-        console.log('User tasks:', userTasks)
         res.status(200).json(userTasks);
         
     } catch (err) {
