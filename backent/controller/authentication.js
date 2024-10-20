@@ -124,3 +124,12 @@ export const Verify = async (req, res) => {
         res.status(401).json({ status: false, msg: "Invalid token" });
     }
 };
+
+export const logout = async (req, res,next) => {
+    try {
+        res.clearCookie("jwt");
+        res.status(200).json({ message: 'User logged out' });
+    } catch (err) {
+        next(err)
+    }
+};

@@ -2,18 +2,20 @@ import React, { useContext } from 'react';
 import { Navigate } from 'react-router-dom';
 import { RoleContext } from './RoleContaxt';
 
-
-
 const VerifyRole = ({ children, allowedRoles }) => {
-    const { isLoggedIn, role } = useContext(RoleContext);
-    console.log(role)
+    const { isLoggedIn, role, loading } = useContext(RoleContext);
+
+    
+    if (loading) {
+        return <div>Loading...</div>;
+    }
+
     if (!isLoggedIn) {
         return <Navigate to="/" />;
     }
 
     if (allowedRoles && !allowedRoles.includes(role)) {
-       
-        return <Navigate to={'/error'}/> ;
+        return <Navigate to="/error" />;
     }
 
     return children;

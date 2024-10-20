@@ -1,8 +1,17 @@
-import React from 'react';
-import {Link} from 'react-router-dom'
+import React, { useContext } from 'react';
+import {Link,useNavigate} from 'react-router-dom'
 import './Navbar.css';
+import { RoleContext } from '../productedRoute/RoleContaxt';
 
 export const Navbar = () => {
+  const { isLoggedIn,logout}=useContext(RoleContext)
+  const navigate=useNavigate();
+  const handleLogout = async () => {
+    await logout(); 
+    navigate('/'); 
+  };
+
+  
   return (
     <nav className="navbar">
       <div className="navbar-logo">
@@ -12,8 +21,21 @@ export const Navbar = () => {
         />
       </div>
       <div className="navbar-links">
-       <Link to={'/'} ><button className="btn">Login</button></Link>
-       <Link to={'/signup'}><button className="btn">Signup</button></Link>
+        {isLoggedIn ? (
+          <>
+            
+            <button className="btn" onClick={handleLogout}>Logout</button>
+          </>
+        ) : (
+          <>
+            <Link to={'/'}>
+              <button className="btn">Login</button>
+            </Link>
+            <Link to={'/signup'}>
+              <button className="btn">Signup</button>
+            </Link>
+          </>
+        )}
       </div>
     </nav>
   );

@@ -1,18 +1,30 @@
 import taskModel from "../model/taskModel.js";
 
-export const getAllTasks = async (req, res, next) => {
+export const getTasksByUser = async (req, res, next) => {
     try {
-        const allTasks = await taskModel.find();
-        res.status(200).json(allTasks);
+        const userId = req.user.id;
+        const userTasks = await taskModel.find({ createdUser: userId });
+        console.log('User tasks:', userTasks)
+        res.status(200).json(userTasks);
+        
     } catch (err) {
         next(err);
     }
 };
 
 export const addTask = async (req, res, next) => {
-    const { taskname, description, status, deadline } = req.body;
+
+    const { taskname, description, deadline, createdUser } = req.body; 
+
+
     try {
-        const createTask = new taskModel({ taskname,description,status,deadline,createdUser: req.user._id });
+        const createTask = new taskModel({
+            taskname,
+            description,
+            deadline,
+            createdUser: createdUser 
+        });
+
         const createdTask = await createTask.save();
         res.status(201).json(createdTask);
     } catch (err) {

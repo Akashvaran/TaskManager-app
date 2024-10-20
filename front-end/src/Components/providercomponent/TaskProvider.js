@@ -8,20 +8,26 @@ export const TaskProvider = ({ children }) => {
     const {userId}=useContext(RoleContext)
     const [tasks, setTasks] = useState([]);
     const [addshowModel, setaddshowModel] = useState(false);
-console.log(userId)
+
     const fetchTasks = async () => {
         try {
-            const response = await Axios.get('/Task');
+            const response = await Axios.get(`/Task`);
             setTasks(response.data);
         } catch (error) {
             console.error('Error fetching tasks:', error);
         }
     };
 
+
     const addTask = async (taskname, description, deadline) => {
-        console.log(userId)
+   
         try {
-            const response = await Axios.post('/Task', { taskname, description, deadline});
+            const response = await Axios.post('/Task', {
+                taskname,
+                description,
+                deadline,
+                createdUser: userId 
+            });
             setTasks((prevTasks) => [...prevTasks, response.data]);
         } catch (error) {
             console.error('Error adding task:', error);
@@ -45,7 +51,7 @@ console.log(userId)
 
     useEffect(() => {
         fetchTasks();
-    }, []);
+    }, [userId]);
 
     return (
         <TaskContext.Provider value={{ tasks, addTask, updateTask, deleteTask, setaddshowModel, addshowModel }}>

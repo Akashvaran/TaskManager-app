@@ -4,10 +4,6 @@ export const protectRoutes = async (req, res, next) => {
   let token;
   if (req.cookies.jwt) {
     token = req.cookies.jwt;
-    res.json({
-      token
-    })
-   console.log(token);
 
     try {
       const decodedData = jwt.verify(token, process.env.JWT_SECRET);

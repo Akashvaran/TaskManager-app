@@ -7,54 +7,49 @@ export const UserProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [role, setRole] = useState('');
   const [userId, setUserId] = useState('');
-
-  console.log(role)
-  console.log(userId)
+  const [loading, setLoading] = useState(true);
 
   const login = (user) => {
-    console.log(user.id)
     setIsLoggedIn(true);
     setRole(user.role);
-    setUserId(user.id)
-    
+    setUserId(user.id);
+  };
+  const logout = async () => {
+    try {
+      await Axios.post('/User/logout'); 
+      setIsLoggedIn(false); 
+      setRole(''); 
+      setUserId(''); 
+    } catch (error) {
+      console.error('Logout error:', error.response ? error.response.data : error.message);
+    }
   };
 
-  console.log(userId)
+  const verifyUser = async () => {
+    try {
+      const response = await Axios.get('/User/Verify');
+      if (response.data.status) {
+        const { role, id } = response.data.user;
+        setIsLoggedIn(true);
+        setRole(role);
+        setUserId(id);
+      }
+    } catch (error) {
+      // console.error('Verification failed:', error.response?.data?.message || error.message);
+      setIsLoggedIn(false);
+      setRole('');
+      setUserId('');
+    } finally {
+      setLoading(false);
+    }
+  };
 
-
-  // const verifyUser = async () => {
-  //   try {
-  //     const response = await Axios.get('/User/Verify');
-  //     console.log('verificetion response:', response.data);
-  //     if (response.data.status) {
-  //       const { role, id } = response.data.user;
-  //       setIsLoggedIn(true);
-  //       setRole(role);
-  //       setUserId(id);
-  //       console.log('Role after verify:', role);
-  //       console.log('User ID after verify:', id);
-  //     }
-  //   } catch (error) {
-  //     // console.error('Verification failed:', error.response?.data?.message || error.message);
-  //     setIsLoggedIn(false);
-  //     setRole('');
-  //     setUserId('');
-  //   }
-  // };
-
-
-  // useEffect(() => {
-  //   verifyUser();
-  // });
-
-
-  // useEffect(() => {
-  //   console.log('Updated role:', role);
-  //   console.log('Updated user ID:', userId);
-  // }, [role, userId]); 
+  useEffect(() => {
+    verifyUser();
+  }, []);
 
   return (
-    <RoleContext.Provider value={{ isLoggedIn, role, userId ,login}}>
+    <RoleContext.Provider value={{ isLoggedIn, role, userId, loading, login,logout }}>
       {children}
     </RoleContext.Provider>
   );

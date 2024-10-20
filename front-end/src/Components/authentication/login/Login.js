@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useContext, useState,useEffect } from 'react';
 import './Login.css';
 import Axios from '../../axios/Axios';
 import { Link, useNavigate } from 'react-router-dom';
@@ -13,7 +13,16 @@ export const Login = () => {
     const [errors, setErrors] = useState({});
     const [successMessage, setSuccessMessage] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
-    const { login } = useContext(RoleContext);
+    const { login,isLoggedIn } = useContext(RoleContext);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (isLoggedIn) {
+            navigate('/getAllTask');
+        }
+    }, [isLoggedIn, navigate])
+
+
     
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -41,7 +50,7 @@ export const Login = () => {
         return validationErrors;
     };
 
-    const navigate = useNavigate();
+    
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -51,9 +60,6 @@ export const Login = () => {
         if (Object.keys(validationErrors).length === 0) {
             try {
                 const response = await Axios.post('User/login', formData);
-                console.log('Login submitted successfully:', response.data);
-                console.log('API Response Data:', response.data);
-
                 const user = response.data.user; 
                 
                 if (user) {
@@ -72,11 +78,9 @@ export const Login = () => {
                     setErrors({});
                     setErrorMessage('');
                 } else {
-                    console.error('Role not found in the response');
                     setErrorMessage('Role not avaliable Login failed');
                 }
             } catch (error) {
-                console.error('Login error:', error.response ? error.response.data : error.message);
                 setErrorMessage(error.response?.data?.message || 'Login failed. Please try again.');
             }
         }
