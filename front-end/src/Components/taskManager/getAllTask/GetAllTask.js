@@ -3,7 +3,8 @@ import './GetAlltask.css';
 import { TaskContext } from "../../providercomponent/TaskProvider";
 import { Link } from "react-router-dom";
 import { IoMdClose } from "react-icons/io";
-import TaskModal from '../addtask/Addtask';
+import TaskCreation from "../addtask/TaskCeration";
+
 
 const GetAllTask = () => {
     const { tasks, deleteTask, addshowModel, setaddshowModel } = useContext(TaskContext);
@@ -31,11 +32,15 @@ const GetAllTask = () => {
     };
 
     return (
-        <div className="tasklist-container">
+        <div className="task-list-container">
             <h2>Task List</h2>
-            <button onClick={() => setaddshowModel(true)}>Add Task</button>
-
-            <div className="tasklist-actions">
+            <div className="button-containers">
+                <button className="add-task-button" onClick={() => setaddshowModel(true)}>Add Task</button>
+                <Link to={'/userDetails'}>
+                    <button className="view-users-button">View Users</button>
+                </Link>
+            </div>
+            <div className="task-list-actions">
                 <input
                     type="text"
                     className="search-input"
@@ -46,7 +51,7 @@ const GetAllTask = () => {
             </div>
 
             <div className="task-list">
-               <Link to={'/userDetails'}><button>viewUsers</button></Link> 
+
                 {filteredTasks.map(task => (
                     <div key={task._id} className="task-item">
                         <div className="task-content">
@@ -55,9 +60,9 @@ const GetAllTask = () => {
                             <p className="task-deadline">Deadline: {task.deadline}</p>
                             <div>
                                 <Link to={`/update/${task._id}`}>
-                                    <button>View</button>
+                                    <button className="view-button">View</button>
                                 </Link>
-                                <button onClick={() => handleDelete(task)}>Delete</button>
+                                <button className="delete-button" onClick={() => handleDelete(task)}>Delete</button>
                             </div>
                         </div>
                     </div>
@@ -65,24 +70,24 @@ const GetAllTask = () => {
             </div>
 
             {showDeleteModal && (
-                <div className="modal-view">
+                <div className="modal-overlay">
                     <div className="modal-content">
-                        <p className="Deletemodelclose" onClick={cancelDelete}>
+                        <p className="close-modal-button" onClick={cancelDelete}>
                             <IoMdClose />
                         </p>
                         <h3>Are you sure you want to delete this task?</h3>
                         <p>{selectedTask?.taskname}</p>
                         <div>
-                            <button onClick={confirmDelete}>Yes</button>
-                            <button onClick={cancelDelete}>No</button>
+                            <button className="confirm-button" onClick={confirmDelete}>Yes</button>
+                            <button className="cancel-button" onClick={cancelDelete}>No</button>
                         </div>
                     </div>
                 </div>
             )}
 
             {addshowModel && (
-               <div className="Addtask-model-view">
-                <TaskModal onClose={() => setaddshowModel(false)} />
+                <div className="add-task-modal">
+                    <TaskCreation onClose={() => setaddshowModel(false)} />
                 </div>
             )}
         </div>

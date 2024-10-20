@@ -1,8 +1,9 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import Axios from '../../axios/Axios';
 import './Viewdetails.css';
 import { TaskContext } from '../../providercomponent/TaskProvider';
+import { FaArrowLeft } from "react-icons/fa";
 
 export const ViewDetails = () => {
   const { id } = useParams();
@@ -33,7 +34,9 @@ export const ViewDetails = () => {
   };
 
   return (
-    <div className="task-details-container">
+    <>
+    <div className="task-details-container">      
+    <Link to={"/getAllTask"}><button className='arrow-back-button'><FaArrowLeft/></button></Link>
       <div className="task-info">
         <h2 className="task-title">Task Details</h2>
         <p><strong>Task Name:</strong> {task.taskname}</p>
@@ -48,5 +51,7 @@ export const ViewDetails = () => {
         </button>
       </div>
     </div>
+
+    </>
   );
 };

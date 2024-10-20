@@ -61,7 +61,7 @@ export const getAllUsers = async (req, res,next) => {
     try {
         const users = await userModel.find();
         res.status(200).json({
-            message: "users retrive success",
+            message: "users retrieve success",
             users,
         });
     } catch (err) {

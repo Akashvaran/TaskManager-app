@@ -3,14 +3,12 @@ import errorHandler from './middleware/errorHandler.js'
 import dotenv from 'dotenv'
 import database from './config/database.js'
 import { authRouter } from './routes/authRoutes.js'
-import path from 'path'
 import cors from 'cors'
 import { errorControler } from './middleware/errorControler.js'
 import taskRouter from './routes/taskRoute.js'
 import cookieParser from 'cookie-parser'
 
-const __dirname=path.resolve()
-dotenv.config({path:path.join(__dirname,'config','config.env')})
+dotenv.config()
 
 database()
 

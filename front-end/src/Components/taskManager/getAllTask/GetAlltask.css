@@ -1,35 +1,36 @@
-.tasklist-container {
+.task-list-container {
     max-width: 800px;
     padding: 20px;
-    margin: 0 auto;
+    margin: 40px auto;
     background-color: #f4f4f4;
     border-radius: 5px;
     border: 1px solid #ddd;
 }
 
-.tasklist-container h2 {
+.task-list-container h2 {
     text-align: center;
     margin-bottom: 20px;
     color: #333;
 }
 
-.tasklist-actions {
+.task-list-actions {
     margin-bottom: 20px;
     text-align: center;
 }
 
 .search-input {
-    padding: 8px;
+    padding: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
     width: 100%;
     max-width: 300px;
+    font-size: 16px;
 }
 
 .task-list {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 15px;
 }
 
 .task-item {
@@ -38,14 +39,57 @@
     border: 1px solid #ddd;
     border-radius: 5px;
     display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: box-shadow 0.3s ease;
+}
+
+.task-item:hover {
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.task-content {
+    flex-grow: 1;
 }
 
 .task-content p {
     margin: 5px 0;
-    font-size: 20px;
+    font-size: 18px;
+    color: #555;
 }
 
-.modal-view {
+.task-content .task-name {
+    font-weight: 600;
+    color: #333;
+}
+
+
+.task-content .task-deadline {
+    font-size: 14px;
+    color: #888;
+}
+
+.task-content button {
+    padding: 8px 12px;
+    margin-left: 8px;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.task-content button.view-button {
+    background-color: #007bff;
+    color: white;
+}
+
+.task-content button.delete-button {
+    background-color: #dc3545;
+    color: white;
+}
+
+
+.modal-overlay {
     position: fixed;
     top: 0;
     left: 0;
@@ -65,9 +109,13 @@
     min-width: 300px;
 }
 
+.modal-content h3 {
+    margin: 15px 0;
+}
+
 .modal-content button {
     margin: 10px;
-    padding: 5px 15px;
+    padding: 10px 20px;
     border: none;
     background-color: #007bff;
     color: white;
@@ -75,24 +123,46 @@
     border-radius: 4px;
 }
 
-.modal-content button:hover {
-    background-color: #0056b3;
+.modal-content button.confirm-button {
+    background-color: #007bff;
 }
 
-.Deletemodelclose {
+.modal-content button.cancel-button {
+    background-color: #dc3545;
+}
+
+.close-modal-button {
     color: #333;
     font-size: 25px;
     cursor: pointer;
-    text-align: right;
-    margin-bottom: 10px;
+    position: absolute;
+    top: 10px;
+    right: 10px;
 }
-.Addtask-model-view {
+
+.add-task-modal {
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
     background: rgba(0, 0, 0, 0.7);
+}
+
+.add-task-button, .view-users-button {
+    padding: 10px 20px;
+    margin: 10px 5px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
    
 }
 
+.button-containers {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}

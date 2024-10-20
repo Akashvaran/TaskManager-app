@@ -18,7 +18,9 @@ export const Login = () => {
 
     useEffect(() => {
         if (isLoggedIn) {
-            navigate('/getAllTask');
+            setTimeout(() => {
+                navigate('/getAllTask');
+            }, 1000);
         }
     }, [isLoggedIn, navigate])
 

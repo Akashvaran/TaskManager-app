@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-
 import './Userdetails.css';
 import Axios from "../axios/Axios";
 
@@ -8,7 +7,6 @@ const Userdetails = () => {
   const [loading, setLoading] = useState(true);
   const [deleteUserId, setDeleteUserId] = useState('');
   const [modalOpen, setModalOpen] = useState(false);
-
 
   const fetchUsers = async () => {
     try {
@@ -32,7 +30,7 @@ const Userdetails = () => {
 
   const deleteUser = async () => {
     try {
-        console.log(deleteUserId)
+      console.log(deleteUserId);
       await Axios.delete(`/User/delete/${deleteUserId}`);
       setUsers(users.filter((user) => user._id !== deleteUserId));
       setModalOpen(false);
@@ -42,7 +40,7 @@ const Userdetails = () => {
   };
 
   if (loading) {
-    return <p>Loading...</p>;
+    return <div className="loading">Loading...</div>;
   }
 
   return (
@@ -50,11 +48,10 @@ const Userdetails = () => {
       <h2>User Management</h2>
       <ul className="user-list">
         {users.map((user) => (
-          <li key={user._id}>
-
-            <span>{user.name}</span>
-            <span> {user.email}</span>
-            <span>{user.role}</span>
+          <li key={user._id} className="user-list-item">
+            <span className="user-info">{user.name}</span>
+            <span className="user-info">{user.email}</span>
+            <span className="user-info role">{user.role}</span>
             <button className="delete-btn" onClick={() => openDeleteModal(user._id)}>Delete</button>
           </li>
         ))}
@@ -75,4 +72,4 @@ const Userdetails = () => {
   );
 };
 
-export default Userdetails
+export default Userdetails;
